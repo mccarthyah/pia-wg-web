@@ -1,13 +1,14 @@
 FROM golang:1.22-alpine AS builder
-
 WORKDIR /build
+
+RUN apk add --no-cache git ca-certificates
+
+# Clone upstream pia-wg-config
+RUN git clone https://github.com/kylegrantlucas/pia-wg-config.git
 
 # Copy web server
 COPY main.go .
 COPY templates ./templates
-
-# Copy upstream repo (subtree)
-COPY vendor/pia-wg-config ./pia-wg-config
 
 # Build pia-wg-config
 WORKDIR /build/pia-wg-config
@@ -18,9 +19,7 @@ WORKDIR /build
 RUN go build -o server main.go
 
 
-# -------- Runtime image --------
 FROM alpine:3.20
-
 WORKDIR /app
 
 RUN apk add --no-cache ca-certificates
