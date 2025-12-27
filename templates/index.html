@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PIA WireGuard Generator</title>
+</head>
+<body>
+  <h2>PIA WireGuard Config Generator</h2>
+
+  <form method="POST" action="/generate">
+    <label>Username</label><br>
+    <input type="text" name="username" required><br><br>
+
+    <label>Password</label><br>
+    <input type="password" name="password" required><br><br>
+
+    <label>Region</label><br>
+    <select name="region" required>
+      {{ range .Regions }}
+        <option value="{{ . }}">{{ . }}</option>
+      {{ end }}
+    </select><br><br>
+
+    <button type="submit">Generate Config</button>
+  </form>
+</body>
+</html>
